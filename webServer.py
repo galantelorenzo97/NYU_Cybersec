@@ -46,7 +46,7 @@ def webServer(port=13331):
       for i in f: #for line in file
         outputdata += f.read()
       outputdata += b"\n"
-      connectionSocket.send(outputdata)
+      connectionSocket.sendall(outputdata)
       connectionSocket.close() #closing the connection socket
       
     except Exception as e:
