@@ -3,7 +3,7 @@ from socket import *
 # In order to terminate the program
 import sys
 
-DEBUG = True
+DEBUG = False
 
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
@@ -41,16 +41,14 @@ def webServer(port=13331):
       #Send an HTTP header line into socket for a valid request. What header should be sent for a response that is ok? 
       #Note that a complete header must end with a blank line, creating the four-byte sequence "\r\n\r\n" Refer to https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/TCPSockets.html
       #Fill in start
-
+      connectionSocket.sendall(outputdata)
       #Fill in end
                
       
       #Send the content of the requested file to the client
       for i in f: #for line in file
-        outputdata += f.read()
-      outputdata += b"\n"
-      debugprint(outputdata)
-      connectionSocket.sendall(outputdata)
+        connectionSocket.send(f.read())
+      
       connectionSocket.close() #closing the connection socket
       
     except Exception as e:
