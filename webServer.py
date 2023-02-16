@@ -3,6 +3,8 @@ from socket import *
 # In order to terminate the program
 import sys
 
+DEBUG = True
+
 def webServer(port=13331):
   serverSocket = socket(AF_INET, SOCK_STREAM)
   
@@ -45,6 +47,8 @@ def webServer(port=13331):
       #Send the content of the requested file to the client
       for i in f: #for line in file
         outputdata += f.read()
+      outputdata += b"\n"
+      debugprint(outputdata)
       connectionSocket.sendall(outputdata)
       connectionSocket.close() #closing the connection socket
       
@@ -66,6 +70,10 @@ def webServer(port=13331):
   #Commenting out the below, as its technically not required and some students have moved it erroneously in the While loop. DO NOT DO THAT OR YOURE GONNA HAVE A BAD TIME.
   serverSocket.close()
   sys.exit()  # Terminate the program after sending the corresponding data
+
+def debugprint(stmt):
+  if DEBUG:
+    print(stmt)
 
 if __name__ == "__main__":
   webServer(13331)
