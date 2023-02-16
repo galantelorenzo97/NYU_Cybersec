@@ -45,7 +45,6 @@ def webServer(port=13331):
       #Send the content of the requested file to the client
       for i in f: #for line in file
         outputdata += f.read()
-      outputdata += b"\n"
       connectionSocket.sendall(outputdata)
       connectionSocket.close() #closing the connection socket
       
@@ -55,7 +54,7 @@ def webServer(port=13331):
       outputdata = b"HTTP/1.0 404 NOT FOUND\r\n"
       outputdata += b"Content-Type: text/html; charset=UTF-8\r\n"
       outputdata += b"\r\n" 
-      connectionSocket.send(outputdata)
+      connectionSocket.sendall(outputdata)
       #Fill in end
 
 
