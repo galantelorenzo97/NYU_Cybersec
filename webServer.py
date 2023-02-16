@@ -45,7 +45,7 @@ def webServer(port=13331):
       #Send the content of the requested file to the client
       for i in f: #for line in file
         outputdata += f.read()
-      outputdata += b"\r\n\r\n"
+      outputdata += b"\r\n"
       connectionSocket.send(outputdata)
       connectionSocket.close() #closing the connection socket
       
