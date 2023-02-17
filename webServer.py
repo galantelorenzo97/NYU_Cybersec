@@ -31,9 +31,8 @@ def webServer(port=13331):
       f = open(filename[1:], "rb") #fill in start #fill in end)
       #fill in end
       
-      outputdata = b"HTTP/1.0 200 OK\r\n"
-      outputdata += b"Content-Type: text/html; charset=UTF-8\r\n"
-      outputdata += b"\r\n" 
+      outputdata = b"HTTP/1.1 200 OK\r\n\r\n"
+      connectionSocket.send(outputdata)
       #Fill in start -This variable can store your headers you want to send for any valid or invalid request. 
       #Content-Type above is an example on how to send a header as bytes
       #Fill in end
@@ -41,23 +40,21 @@ def webServer(port=13331):
       #Send an HTTP header line into socket for a valid request. What header should be sent for a response that is ok? 
       #Note that a complete header must end with a blank line, creating the four-byte sequence "\r\n\r\n" Refer to https://w3.cs.jmu.edu/kirkpams/OpenCSF/Books/csf/html/TCPSockets.html
       #Fill in start
-      connectionSocket.sendall(outputdata)
+      #connectionSocket.sendall(outputdata)
       #Fill in end
                
       
       #Send the content of the requested file to the client
       for i in f: #for line in file
-        connectionSocket.send(f.read())
+        connectionSocket.send(f.readline())
       
       connectionSocket.close() #closing the connection socket
       
     except Exception as e:
       # Send response message for invalid request due to the file not being found (404)
       #Fill in start
-      outputdata = b"HTTP/1.0 404 NOT FOUND\r\n"
-      outputdata += b"Content-Type: text/html; charset=UTF-8\r\n"
-      outputdata += b"\r\n" 
-      connectionSocket.sendall(outputdata)
+      outputdata = b"HTTP/1.1 404 NOT FOUND\r\n\r\n"
+      connectionSocket.send(outputdata)
       #Fill in end
 
 
@@ -73,6 +70,10 @@ def webServer(port=13331):
 def debugprint(stmt):
   if DEBUG:
     print(stmt)
+
+def transmit(conn_sock, bytearray):
+  for i in range(0, len(bytearray)):
+    conn_sock.send(bytearray[i].encode())
 
 if __name__ == "__main__":
   webServer(13331)
